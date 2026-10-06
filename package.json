@@ -1,0 +1,78 @@
+{
+  "name": "dsh-trae-skin",
+  "displayName": "DSH Trae skin",
+  "description": "Trae skin for the DSH Web GUI: the near-black page, mint-green accent, gradient wordmark band and 2px geometry of trae.cn",
+  "version": "0.2.0",
+  "license": "MIT",
+  "author": "RonnyJung2021 <263851522+RonnyJung2021@users.noreply.github.com>",
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "plugin",
+    "skin",
+    "theme",
+    "trae"
+  ],
+  "type": "module",
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./locale/*": "./locale/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "locale",
+    "scripts",
+    "preview",
+    "cordis.patch.yml",
+    "build.mjs",
+    "src",
+    "test",
+    "package.json",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "scripts": {
+    "build": "node build.mjs",
+    "watch": "node build.mjs --watch",
+    "test": "node --test test/*.test.mjs",
+    "install-profile": "node scripts/install-profile.mjs",
+    "prepack": "node build.mjs",
+    "prepublishOnly": "npm test"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-ui-settings"
+      ]
+    }
+  },
+  "devDependencies": {
+    "@deepseek-ai/schemastery": "^3.18.4",
+    "esbuild": "^0.24.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RonnyJung2021/dsh-trae-skin.git"
+  },
+  "homepage": "https://github.com/RonnyJung2021/dsh-trae-skin",
+  "bugs": {
+    "url": "https://github.com/RonnyJung2021/dsh-trae-skin/issues"
+  }
+}

@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>dsh-trae-skin · 自测预览</title>
+    <!--
+      The self-test preview. It is NOT a replica of the product: the page below is a
+      mock shell that carries the product's own token names and a few of its
+      documented hooks, and everything painted on it comes from the real modules in
+      `lib/preview.js` — the same stylesheet, the same applier, the same status band
+      and the same reading of the streaming signal.
+
+      Open this file directly (no server needed): `npm run build` writes
+      `lib/preview.js` first.
+    -->
+    <style>
+      /* ---- the mock shell's own tokens, named exactly as the product names them ---- */
+      :root {
+        --dsw-static-neutral-00: #ffffff;
+      }
+
+      body {
+        --dsw-alias-bg-base: #ffffff;
+        --dsw-alias-bg-layer-1: #f8f9fa;
+        --dsw-alias-bg-layer-2: #f1f3f5;
+        --dsw-alias-bg-layer-3: #e9ecef;
+        --dsw-alias-bg-overlay: #ffffff;
+        --dsw-specific-sidebar-fill: #f8f9fa;
+        --dsw-specific-input-major: #ffffff;
+        --dsw-specific-bubble: #f1f3f5;
+        --dsw-menu-surface-fill: rgba(248, 249, 250, 0.94);
+        --dsw-alias-label-primary: #0f1115;
+        --dsw-alias-label-secondary: #5b6066;
+        --dsw-alias-label-tertiary: #8a9096;
+        --dsw-alias-label-primary-foreground: #ffffff;
+        --dsw-alias-label-primary-inverted: var(--dsw-static-neutral-00);
+        --dsw-alias-border-l1: #00000014;
+        --dsw-alias-border-l2: #0000001f;
+        --dsw-alias-border-l3: #0000002e;
+        --dsw-alias-border-l4: #0000003d;
+        --dsw-alias-brand-primary: #4d6bfe;
+        --dsw-alias-link: #4d6bfe;
+        --dsw-alias-button-primary-fill: #4d6bfe;
+        --dsw-alias-button-primary-hover: #3b5bf0;
+        --dsw-alias-button-primary-dimmed: #4d6bfe4d;
+        --dsw-alias-interactive-bg-hover: #0000000a;
+        --dsw-alias-interactive-bg-active: #00000014;
+        --dsw-alias-markdown-code-block: #f8f9fa;
+        --dsw-alias-markdown-inline-code: #0000000f;
+        --dsw-alias-scrollbar-bg-l1: #00000029;
+        --dsw-alias-scrollbar-hover-l1: #0000004d;
+        --dsw-alias-state-warn-primary: #d97706;
+        --dsw-alias-state-success-primary: #16a34a;
+        --dsw-alias-state-error-primary: #dc2626;
+        --dsw-alias-switch-thumb: #ffffff;
+        --dsw-radius-xs: 4px;
+        --dsw-radius-sm: 8px;
+        --dsw-radius-md: 12px;
+        --dsw-radius-lg: 16px;
+        --dsw-radius-xl: 20px;
+        --dsw-shadow-lv1: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+        --dsw-shadow-lv2: 0 4px 12px 0 rgba(0, 0, 0, 0.02);
+        --dsw-shadow-lv3: 0 12px 32px 0 rgba(0, 0, 0, 0.08);
+        --dsw-elevation-stroke-color: var(--dsw-alias-border-l4);
+        --dsw-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        --ds-font-family-code: ui-monospace, monospace;
+        /* The product declares these per element; the mock does the same, so the
+           skin's own per-element override is exercised rather than assumed. */
+        --dsw-elevation-stroke: 0 0 0 0.5px var(--dsw-elevation-stroke-color);
+        --dsw-elevation-panel: var(--dsw-elevation-stroke), 0 3px 8px 0 rgba(0, 0, 0, 0.03);
+        --dsw-elevation-prominent: var(--dsw-elevation-stroke), 0 3px 8px 0 rgba(0, 0, 0, 0.04);
+        --dsw-elevation-soft: var(--dsw-elevation-stroke), 0 4px 16px 0 rgba(0, 0, 0, 0.03);
+      }
+
+      body[data-ds-dark-theme] {
+        --dsw-alias-bg-base: #151517;
+        --dsw-alias-bg-layer-1: #1b1b1e;
+        --dsw-alias-bg-layer-2: #232325;
+        --dsw-alias-bg-layer-3: #2b2b2e;
+        --dsw-specific-sidebar-fill: #1b1b1e;
+        --dsw-specific-input-major: #1b1b1e;
+        --dsw-specific-bubble: #232325;
+        --dsw-menu-surface-fill: rgba(48, 49, 54, 0.94);
+        --dsw-alias-label-primary: #f5f6f7;
+        --dsw-alias-label-secondary: #a6aab5;
+        --dsw-alias-label-tertiary: #787d87;
+        --dsw-alias-label-primary-inverted: #36393d;
+        --dsw-alias-border-l1: #ffffff14;
+        --dsw-alias-border-l2: #ffffff1f;
+        --dsw-alias-border-l3: #ffffff2e;
+        --dsw-alias-border-l4: #ffffff3d;
+        --dsw-alias-markdown-code-block: #1b1b1e;
+        --dsw-alias-markdown-inline-code: #ffffff0f;
+        --dsw-alias-scrollbar-bg-l1: #ffffff29;
+        --dsw-alias-scrollbar-hover-l1: #ffffff4d;
+      }
+
+      * { box-sizing: border-box; }
+
+      /* ---- the page's own furniture: a sidebar, a column, a composer ---- */
+      body {
+        margin: 0;
+        background: var(--dsw-alias-bg-base);
+        color: var(--dsw-alias-label-primary);
+        font-family: var(--dsw-font-family);
+      }
+
+      #root { display: flex; height: 100vh; }
+
+      .side {
+        width: 232px;
+        flex: none;
+        padding: 12px;
+        border-right: 0.5px solid var(--dsw-alias-border-l3);
+        background: var(--dsw-specific-sidebar-fill);
+      }
+
+      .brand { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-weight: 600; }
+      .badge {
+        display: inline-flex; align-items: center; height: 10px; padding: 0 3px;
+        border-radius: var(--dsw-radius-xs, 2px);
+        color: var(--dsw-alias-label-primary-inverted);
+        background: var(--dsw-alias-label-primary);
+        font-family: var(--ds-font-family-code);
+        font-size: 6px; font-weight: 500; line-height: 10px;
+      }
+
+      .nav { display: flex; flex-direction: column; gap: 2px; }
+      .nav span {
+        padding: 6px 8px;
+        border-radius: var(--dsw-radius-sm);
+        color: var(--dsw-alias-label-secondary);
+      }
+      .nav span[data-active] {
+        background: var(--dsw-alias-interactive-bg-hover);
+        color: var(--dsw-alias-label-primary);
+      }
+
+      .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+      .thread { flex: 1; overflow: auto; padding: 16px 24px; display: flex; flex-direction: column; gap: 16px; }
+
+      .bubble {
+        max-width: 640px;
+        padding: 10px 14px;
+        border-radius: var(--dsw-radius-md);
+        background: var(--dsw-specific-bubble);
+      }
+
+      .answer { max-width: 720px; }
+      .answer code {
+        padding: 1px 4px;
+        border-radius: var(--dsw-radius-xs);
+        background: var(--dsw-alias-markdown-inline-code);
+      }
+      .answer pre {
+        margin: 8px 0 0;
+        padding: 12px;
+        overflow: auto;
+        border-radius: var(--dsw-radius-sm);
+        background: var(--dsw-alias-markdown-code-block);
+      }
+
+      .composer { padding: 12px 24px 24px; }
+      .card {
+        display: flex; align-items: center; gap: 8px;
+        padding: 12px;
+        border: 1px solid var(--dsw-alias-border-l2);
+        border-radius: var(--dsw-radius-lg);
+        background: var(--dsw-specific-input-major);
+        box-shadow: var(--dsw-elevation-soft);
+      }
+      .card input { flex: 1; border: 0; background: transparent; color: inherit; font: inherit; outline: none; }
+
+      .menu {
+        position: absolute; inset-block-start: 96px; inset-inline-start: 248px;
+        width: 200px; padding: 6px;
+        border-radius: var(--dsw-radius-sm);
+        background: var(--dsw-menu-surface-fill);
+        box-shadow: var(--dsw-elevation-panel);
+      }
+      .menu span { display: block; padding: 6px 8px; border-radius: var(--dsw-radius-xs); }
+      .menu span[data-active] { background: var(--dsw-alias-interactive-bg-hover); }
+
+      .switch { display: inline-flex; align-items: center; gap: 6px; }
+      .track {
+        inline-size: 28px; block-size: 16px; border-radius: 50px;
+        display: inline-block; position: relative;
+        background: var(--dsw-alias-brand-primary);
+      }
+      .track[aria-checked='false'] { background: var(--dsw-alias-border-l3); }
+      .track::after {
+        content: ''; position: absolute; inset-block-start: 2px; inset-inline-start: 14px;
+        inline-size: 12px; block-size: 12px; border-radius: 50%;
+        background: var(--dsw-alias-switch-thumb);
+      }
+      .track[aria-checked='false']::after { inset-inline-start: 2px; }
+
+      .button {
+        padding: 6px 12px;
+        border: 0;
+        border-radius: var(--dsw-radius-xs);
+        background: var(--dsw-alias-button-primary-fill);
+        color: var(--dsw-alias-label-primary-foreground);
+        font: inherit; font-weight: 500;
+      }
+      .ghost {
+        padding: 6px 12px;
+        border: 1px solid var(--dsw-alias-border-l3);
+        border-radius: var(--dsw-radius-xs);
+        background: transparent; color: inherit; font: inherit;
+      }
+
+      /* ---- the preview's own control panel: fixed, and outside the mock shell ---- */
+      .preview {
+        position: fixed; inset-block-start: 8px; inset-inline-end: 8px;
+        inline-size: 320px; max-block-size: calc(100vh - 16px); overflow: auto;
+        padding: 12px;
+        border: 1px solid var(--dsw-alias-border-l3);
+        border-radius: 8px;
+        background: var(--dsw-alias-bg-layer-1);
+        color: var(--dsw-alias-label-primary);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-size: 12px;
+        z-index: 100;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+      }
+      .preview h1 { margin: 0 0 8px; font-size: 13px; }
+      .preview p { margin: 0 0 8px; color: var(--dsw-alias-label-tertiary); line-height: 16px; }
+      .preview label { display: grid; grid-template-columns: 96px 1fr; gap: 6px; align-items: center; margin-bottom: 6px; }
+      .preview input[type='text'], .preview input[type='number'], .preview select {
+        block-size: 24px; padding-inline: 6px;
+        border: 1px solid var(--dsw-alias-border-l3); border-radius: 2px;
+        background: var(--dsw-alias-bg-base); color: inherit; font: inherit;
+      }
+      .preview dl { display: grid; grid-template-columns: 110px 1fr; gap: 2px 8px; margin: 10px 0 0; }
+      .preview dt { color: var(--dsw-alias-label-tertiary); }
+      .preview dd { margin: 0; overflow-wrap: anywhere; }
+      .preview code { font-family: var(--ds-font-family-code); font-size: 11px; }
+      .dshPreviewSwatch {
+        display: inline-block; inline-size: 10px; block-size: 10px; margin-inline-end: 4px;
+        border: 1px solid var(--dsw-alias-border-l3); border-radius: 2px; vertical-align: -1px;
+      }
+      .preview .row { display: flex; gap: 6px; margin-top: 8px; }
+    </style>
+  </head>
+  <body>
+    <!-- The mock shell. Every token above is the product's own name, and the two
+         hooks the skin addresses — `data-composer-card` and `data-menu-material` —
+         are the product's documented ones. -->
+    <div id="root">
+      <div class="side">
+        <div class="brand">
+          <span>DeepSeek Harness</span>
+          <span class="badge" id="badge">v0.2.0</span>
+        </div>
+        <div class="nav">
+          <span data-active>新会话</span>
+          <span>会话</span>
+          <span>插件</span>
+          <span>设置</span>
+        </div>
+      </div>
+
+      <div class="main">
+        <div class="thread">
+          <div class="bubble">把这条会话的结论整理成三条。</div>
+          <div class="answer" id="answer">
+            <p>第一条：外观只经产品有文档的 token 换，不改页面结构。</p>
+            <p>第二条：强调色只填一个值，当文字的那一档自动算到达标。</p>
+            <pre><code>--dsw-alias-button-primary-fill: var(--dsh-trae-accent);</code></pre>
+          </div>
+        </div>
+
+        <div class="composer">
+          <div class="card" data-composer-card>
+            <input value="给这个输入卡换成参照站的样子" readonly />
+            <span class="switch">
+              <span class="track" role="switch" aria-checked="true"></span>
+              <span>开</span>
+            </span>
+            <span class="switch">
+              <span class="track" role="switch" aria-checked="false"></span>
+              <span>关</span>
+            </span>
+            <button class="button" type="button">发送</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu" data-menu-material>
+        <span data-active>浅色</span>
+        <span>深色</span>
+        <span>跟随产品</span>
+      </div>
+    </div>
+
+    <!-- The controls. They drive the real modules, not a copy of them. -->
+    <div class="preview">
+      <h1>dsh-trae-skin · 自测预览</h1>
+      <p>真实模块 + 模拟外壳：同一份样式表、同一个 applier、同一条状态带。不是产品的复刻。</p>
+
+      <label>配色 <select id="scheme">
+        <option value="dark">深色（默认）</option>
+        <option value="light">浅色</option>
+        <option value="auto">跟随产品</option>
+      </select></label>
+      <label>强调色 <input id="accent" type="text" value="#32f08c" spellcheck="false" /></label>
+      <label>字标 <input id="wordmark" type="text" value="DEEPSEEK HARNESS" spellcheck="false" /></label>
+      <label>状态带 <input id="strip" type="checkbox" checked /></label>
+      <label>只留内容 <input id="stripBare" type="checkbox" /></label>
+      <label>呼吸 <input id="pulse" type="checkbox" checked /></label>
+      <label>光晕 <select id="pulseMode">
+        <option value="follow">跟随强调色</option>
+        <option value="literal">指定颜色</option>
+      </select></label>
+      <label>光晕色 <input id="pulseColor" type="text" value="#32f08c" spellcheck="false" /></label>
+      <label>扩散大小 <input id="pulseScale" type="number" min="1.2" max="2.4" step="0.1" value="1.6" /></label>
+      <label>周期 ms <input id="pulsePeriodMs" type="number" min="800" max="4000" step="100" value="1600" /></label>
+      <label>光晕强度 <input id="pulseOpacity" type="number" min="0.1" max="0.6" step="0.05" value="0.35" /></label>
+
+      <div class="row">
+        <button class="ghost" type="button" id="simulate">模拟一次推理</button>
+      </div>
+
+      <dl id="derived"></dl>
+    </div>
+
+    <script src="../lib/preview.js"></script>
+  </body>
+</html>

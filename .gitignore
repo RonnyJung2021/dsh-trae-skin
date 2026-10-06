@@ -1,0 +1,15 @@
+# Build-time dependencies; reinstall with `npm install`.
+node_modules/
+# Local npm cache, used when the machine's own cache is not writable.
+.npm-cache/
+# `lib/` is deliberately NOT ignored: it is the payload, and a pnpm install from
+# the git URL cannot build it (pnpm refuses a git dependency's build scripts unless
+# the machine allowlists the package). Publishing rebuilds it through `prepack`, so
+# a `lib/` committed here is kept in step by `npm run build`.
+# Editor and OS residue.
+.vscode/
+.DS_Store
+# Local run scaffolding: a link to an isolated DSH home and a link to a shared
+# editor build. Neither is part of the plugin.
+.dsh
+VSCodium.app

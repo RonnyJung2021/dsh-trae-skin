@@ -1,0 +1,33 @@
+# Bundle patch for the Trae skin.
+#
+# Installing this package as a profile bundle (`dsh plugin add`, or the Plugins page)
+# activates the row below at the bundle layer. The Host half publishes any settings
+# this row sets; the browser half installs the stylesheet, paints the palette and
+# mounts the status band.
+#
+# Every field is optional. The defaults are: `dark` — the reference site's own page,
+# which is dark-first, so following the product would show a light-system user a
+# design that product never shipped — the site's own accent `#32f08c`, the wordmark
+# `DEEPSEEK HARNESS`, the status band on in its full shape, and the light breathing
+# while the product reports reasoning.
+#
+# The ten appearance fields below are also editable from the plugin's own card in
+# 侧栏「插件」→ dsh-trae-skin, which is the shorter way to reach them: the card writes
+# them back here through the Settings service, and only when Save is pressed.
+- insert:
+    - id: dsh-trae-skin
+      name: dsh-trae-skin
+      # config:
+      #   scheme: dark                 # dark | light | auto
+      #   accent: '#32f08c'            # any #rrggbb; the text-safe variant, the
+      #                                # 12% wash and both ramps derive from it
+      #   wordmark: DEEPSEEK HARNESS   # 1–24 characters
+      #   strip: true                  # paint the top status band
+      #   stripBare: false             # keep only the band's content
+      #   pulse: true                  # breathe while the product reports reasoning
+      #   pulseColor: follow           # follow | '#rrggbb'
+      #   pulseScale: 1.6              # 1.2–2.4, as a multiple of the light's radius
+      #   pulsePeriodMs: 1600          # 800–4000
+      #   pulseOpacity: 0.35           # 0.1–0.6
+      #   enabled: true                # deployment switch, not on the card
+      #   globalName: __DSH_TRAE_SKIN__ # deployment switch, not on the card
